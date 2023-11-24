@@ -1,14 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('build') { 
+        stage('remove') { 
             steps {
-                echo 'building the application'
+                echo 'sudo docker compose -f anotation-frontend-dockercompose.yml down'
             }
         }
-        stage('test') { 
+        stage('build') { 
             steps {
-                echo 'testing the application'
+                echo 'sudo docker compose -f anotation-frontend-dockercompose.yml up -d'
             }
         }
         stage('deploy') { 
