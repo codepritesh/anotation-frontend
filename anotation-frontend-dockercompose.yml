@@ -1,0 +1,31 @@
+# to build
+# sudo docker build --tag 'anotaion-tool-frontend' .
+# sudo docker compose -f anotation-frontend-dockercompose.yml up -d
+version: '1.1'
+
+networks:
+  anotation-tool-net:
+    external: true
+services:
+  anotaion-tool-frontend:
+    build: .
+    container_name: anotaion-tool-frontend
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - anotation-tool-net
+    environment:
+      REACT_APP_API_BASE_URL: http://localhost:8083/v1
+      REACT_APP_GOOGLE_LOGIN: http://localhost:8083/v1/auth/google
+      REACT_APP_FACEBOOK_LOGIN: http://localhost:8083/v1/auth/facebook
+      REACT_APP_REACT_APP_LINKEDIN_LOGIN: http://localhost:8083/v1/auth/linkedin
+      REACT_APP_GTM_ID: GTM-PL2KXX8
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2g
+        reservations:
+          cpus: '1.5'
+          memory: 1g
