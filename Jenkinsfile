@@ -12,6 +12,7 @@ pipeline {
                 pwd
                 docker compose -f anotation-frontend-dockercompose.yml down
                 docker rm -f anotaion-tool-frontend
+                docker rmi anotaion-tool-frontend-docker-image
                 '''
             }
         }
