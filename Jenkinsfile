@@ -3,17 +3,26 @@ pipeline {
     stages {
         stage('remove') { 
             steps {
-                echo 'sudo docker compose -f anotation-frontend-dockercompose.yml down'
+                sh '''
+                echo 'docker remove and path-------------------------'
+                pwd
+                docker compose -f anotation-frontend-dockercompose.yml down
+                docker rm -f anotaion-tool-frontend
+                '''
             }
         }
         stage('build') { 
             steps {
-                echo 'sudo docker compose -f anotation-frontend-dockercompose.yml up -d'
+                sh '''
+                docker compose -f anotation-frontend-dockercompose.yml up -d
+                '''
             }
         }
         stage('deploy') { 
             steps {
-                echo 'deploying the application'
+                sh '''
+                docker ps
+                '''
             }
         }
     }
