@@ -9,6 +9,7 @@ networks:
 services:
   anotaion-tool-frontend:
     build: .
+    image: anotaion-tool-frontend-docker-image
     container_name: anotaion-tool-frontend
     restart: always
     ports:

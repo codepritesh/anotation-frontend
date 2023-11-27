@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    options {
+        // This is required if you want to clean before build
+        skipDefaultCheckout(true)
+    }
     stages {
         stage('remove') { 
             steps {
@@ -13,6 +17,10 @@ pipeline {
         }
         stage('build') { 
             steps {
+                // Clean before build
+                cleanWs()
+                // We need to explicitly checkout from SCM here
+                checkout scm
                 sh '''
                 docker compose -f anotation-frontend-dockercompose.yml up -d
                 '''
@@ -24,6 +32,17 @@ pipeline {
                 docker ps
                 '''
             }
+        }
+    }
+    post {
+        // Clean after build
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
         }
     }
 }
